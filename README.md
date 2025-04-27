@@ -18,3 +18,4 @@ make
 ./stx-recv --listen <port> --out <out directory>
 ./stx-send <host> <port> path/to/file.bin
 ```
+For a more detailed description of the design, please check out the [DESIGN.md](DESIGN.md)
