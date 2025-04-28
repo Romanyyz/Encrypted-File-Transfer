@@ -8,3 +8,4 @@
 ## Limitations of implementation
 At the moment there are problems with the shutdown of services. It is necessary to improve connection management on the server to be able to release resources correctly at session termination.
 It is necessary to implement Graceful Shutdown. It is also worth thinking about how to synchronize the release of session resources with asynchronous IO in the kernel.
+It is also worth adding manual control of offsets in the received file and its size. This will allow to write to the file in parallel and improve performance.
