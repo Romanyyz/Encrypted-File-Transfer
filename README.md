@@ -1,6 +1,10 @@
 # TestTask
 ## Requirements
-Linux 5.15+. Tested on 6.14
+1. Linux 5.15+
+2. gcc
+3. cmake
+4. make
+5. pkgconf
 ## Dependencies
 1. OpenSSL
 2. liburing
