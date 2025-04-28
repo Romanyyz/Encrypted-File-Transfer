@@ -16,21 +16,22 @@ Connection::Connection(int sock_fd, int epoll_fd) : sockFd_{sock_fd}, epollFd_{e
 {
 }
 
-Connection::Connection(Connection&& other) : connId_{other.connId_},
-                                             sockFd_{other.sockFd_},
-                                             targetFileFd_{other.targetFileFd_},
-                                             epollFd_{other.epollFd_},
-                                             bytesReceived_{other.bytesReceived_},
-                                             readyToWrite_{other.readyToWrite_},
-                                             isPaused_{other.isPaused_},
-                                             currentEpollEvents_{other.currentEpollEvents_},
-                                             allRead_{other.allRead_},
-                                             wholeFileReceived_{other.wholeFileReceived_},
-                                             writeBuffers_{std::move(other.writeBuffers_)},
-                                             isBufferBusy_{std::move(other.isBufferBusy_)},
-                                             currentBufferIdx_{other.currentBufferIdx_},
-                                             sockBuffer_{std::move(other.sockBuffer_)},
-                                             decryptedAESKey_{std::move(other.decryptedAESKey_)}
+Connection::Connection(Connection&& other) noexcept :
+    connId_{other.connId_},
+    sockFd_{other.sockFd_},
+    targetFileFd_{other.targetFileFd_},
+    epollFd_{other.epollFd_},
+    bytesReceived_{other.bytesReceived_},
+    readyToWrite_{other.readyToWrite_},
+    isPaused_{other.isPaused_},
+    currentEpollEvents_{other.currentEpollEvents_},
+    allRead_{other.allRead_},
+    wholeFileReceived_{other.wholeFileReceived_},
+    writeBuffers_{std::move(other.writeBuffers_)},
+    isBufferBusy_{std::move(other.isBufferBusy_)},
+    currentBufferIdx_{other.currentBufferIdx_},
+    sockBuffer_{std::move(other.sockBuffer_)},
+    decryptedAESKey_{std::move(other.decryptedAESKey_)}
 {
     other.connId_ = 0;
     other.sockFd_ = -1;
@@ -46,7 +47,7 @@ Connection::Connection(Connection&& other) : connId_{other.connId_},
 }
 
 
-Connection& Connection::operator=(Connection&& rhs)
+Connection& Connection::operator=(Connection&& rhs) noexcept
 {
     connId_ = rhs.connId_;
     rhs.connId_ = 0;
@@ -91,7 +92,7 @@ Connection& Connection::operator=(Connection&& rhs)
 }
 
 
-Connection::~Connection()
+Connection::~Connection() noexcept
 {
     closeConnection();
 }
@@ -358,7 +359,7 @@ void Connection::openTargetFile()
 }
 
 
-void Connection::closeConnection()
+void Connection::closeConnection() noexcept
 {
     epoll_ctl(epollFd_, EPOLL_CTL_DEL, sockFd_, nullptr);
     if (sockFd_ != -1)

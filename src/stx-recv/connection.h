@@ -24,15 +24,15 @@ struct UserData
 class Connection
 {
 public:
+    Connection() noexcept = default;
     Connection(int sock_fd, int epoll_fd);
-    ~Connection();
+    ~Connection() noexcept;
 
-    Connection() = default;
     Connection(const Connection&) = delete;
-    Connection(Connection&&);
+    Connection(Connection&&) noexcept;
 
     Connection& operator=(const Connection&) = delete;
-    Connection& operator=(Connection&&);
+    Connection& operator=(Connection&&) noexcept;
 
     void submitToUring(io_uring* ring);
     bool readyToWrite();
@@ -43,7 +43,7 @@ public:
     void pauseReading();
     size_t getFreeBuffers() const;
     void setEpollEvents(uint32_t epollEvents);
-    void closeConnection();
+    void closeConnection() noexcept;
     int getSockFd();
 
     int appendToWriteBuffer(const FileTransferPacket& packet);

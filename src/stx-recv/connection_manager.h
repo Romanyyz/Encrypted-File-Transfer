@@ -10,8 +10,15 @@
 class ConnectionManager
 {
 public:
-    ConnectionManager();
-    ~ConnectionManager();
+    ConnectionManager() noexcept;
+    ~ConnectionManager() noexcept;
+
+    ConnectionManager(const ConnectionManager&) = delete;
+    ConnectionManager& operator=(const ConnectionManager&) = delete;
+
+    ConnectionManager(ConnectionManager&&) = delete;
+    ConnectionManager& operator=(ConnectionManager&&) = delete;
+
     bool startConnection(int sock_fd, int epoll_fd);
     void removeConnection(int sock_fd);
     bool processConnection(int sock_fd);
@@ -19,7 +26,7 @@ public:
     bool onSockRead(int fd);
     Connection& getConnection(int sock_fd);
     bool receiveFileName(int sock_fd);
-    void closeAllConnections();
+    void closeAllConnections() noexcept;
 
 private:
     void cqeHandlerThread(io_uring* ring);

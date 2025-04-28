@@ -79,7 +79,7 @@ void ConnectionManager::cqeHandlerThread(io_uring* ring)
 }
 
 
-ConnectionManager::ConnectionManager()
+ConnectionManager::ConnectionManager() noexcept
 {
     std::memset(&params, 0, sizeof(params));
     io_uring_queue_init_params(QUEUE_SIZE, &ring, &params);
@@ -87,7 +87,7 @@ ConnectionManager::ConnectionManager()
 }
 
 
-ConnectionManager::~ConnectionManager()
+ConnectionManager::~ConnectionManager() noexcept
 {
     stopFlag_ = true;
     if (complitionThread_.joinable())
@@ -99,7 +99,7 @@ ConnectionManager::~ConnectionManager()
 }
 
 
-void ConnectionManager::closeAllConnections()
+void ConnectionManager::closeAllConnections() noexcept
 {
     for (auto& pair : connections)
     {
